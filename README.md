@@ -23,7 +23,7 @@ ECBD is a framework to analyze what LMs can infer about new entities that did no
 
 
 ### Data Files
-ECBD data files can be downloaded from [here](https://utexas.box.com/s/vizplzqdiyc1dfuz5npmk2x4fjsjioui). `ecbd` contains 6 subsets (2017 to 2021 and popular). 
+ECBD data files can be downloaded from [here](https://utexas.box.com/s/3s8p16ogtvkua91vx1d9mpwftrko81dq). `ecbd` contains 6 subsets (2017 to 2021 and popular). 
 
 - `np_spans_dev.json`: Noun phrase spans for dev.
 - `np_spans_test.json` Noun phrase spans for test.
