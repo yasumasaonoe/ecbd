@@ -6,7 +6,7 @@ import argparse
 import logging
 import random
 
-from .data_utils import split_dataset
+from data_utils import split_dataset
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(

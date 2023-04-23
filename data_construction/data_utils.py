@@ -378,6 +378,7 @@ def format_input_data(file_path: str,
                       save_to: str,
                       masking_mode: str = 'span',
                       mask_type: str = 'noun_phrases',
+                      mask_after_entity: bool = True,
                       rng: Any = None):
 
     def write_jsonline(f: TextIO,
@@ -460,6 +461,12 @@ def format_input_data(file_path: str,
                         answer_d, entity_span_loc, mask_loc,  \
                         masked_span_loc_char, entity_span_str, mask_span_str, \
                         mask_token, span_type in masked_sentences:
+
+                        if mask_after_entity and mask_loc[0] <= \
+                                entity_span_loc[1]:
+                            # Skip this sentence.
+                            continue
+
                         ex_id = '{}_{}_{}_{}'.format(
                             title, pageid, sent_id, span_id)
                         write_jsonline(
@@ -538,6 +545,19 @@ def split_dataset(file_path: str,
     dev_examples = defaultdict(list)
     for ex in tqdm(examples):
         pageid = ex['ex_id'].split('_')[-3]
+
+        if 'distance' not in ex:
+            if ex['entity_span_loc'][1] < ex['mask_loc'][0]:
+                distance = ex['mask_loc'][0] - ex[
+                    'entity_span_loc'][1]
+            else:
+                distance = ex['mask_loc'][1] - ex[
+                    'entity_span_loc'][0]
+            ex['distance'] = distance
+
+        if 'masked_sentence_with_ent' not in ex:
+            ex['masked_sentence_with_ent'] = ex['masked_sentence']
+
         if distance >= ex['distance']:
             _span = span_info[ex['ex_id']]
             assert ex['answer_str'] == _span['answer_str'], (

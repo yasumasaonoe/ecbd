@@ -7,7 +7,7 @@ import argparse
 import logging
 import numpy as np
 
-from .data_utils import format_input_data
+from data_utils import format_input_data
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -29,6 +29,9 @@ parser.add_argument("--masking_mode",
 parser.add_argument("--mask_type",
                     help="Mask type.",
                     choices=['noun_phrases', 'random'])
+parser.add_argument("--mask_after_entity",
+                    help="Always mask after entity mentions.",
+                    default=True)
 
 
 SEED = 2022
@@ -55,6 +58,7 @@ def main():
                       args.save_to,
                       masking_mode=args.masking_mode,
                       mask_type=args.mask_type,
+                      mask_after_entity=args.mask_after_entity,
                       rng=rng)
     logger.info(
         f'Saved to {args.save_to}'
